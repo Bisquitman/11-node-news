@@ -3,19 +3,25 @@ const NewsAPI = require('newsapi');
 
 const newsapi = new NewsAPI(process.env.API_KEY);
 
-const getTopNews = async (limit = 10, language = '') => {
+const showNews = news => {
+  news.forEach((article, index) => {
+    console.log();
+    console.log(`[${index + 1}] ${article.title}`);
+    console.log((article.description || '') + '');
+    console.log(article.url + '');
+    console.log('---');
+  });
+};
+
+const getTopNews = async (limit = 10, language = 'ru') => {
   try {
     const response = await newsapi.v2.topHeadlines({
       pageSize: limit,
       language: language,
     });
     const news = response.articles;
-    news.forEach(article => {
-      console.log();
-      console.log(article.title);
-      console.log(article.description);
-      console.log('---');
-    });
+    console.log(`\n--- Top ${news.length} News ---\n`);
+    showNews(news);
   } catch (error) {
     console.error(error);
   }
@@ -29,12 +35,7 @@ const getNewsByKeyword = async (keyword, limit = 10, language = '') => {
       language: language,
     });
     const news = response.articles;
-    news.forEach(article => {
-      console.log();
-      console.log(article.title);
-      console.log(article.description);
-      console.log('---');
-    });
+    showNews(news);
   } catch (error) {
     console.error(error);
   }
@@ -47,12 +48,7 @@ const getNewsByLanguage = async (language, limit = 10) => {
       pageSize: limit,
     });
     const news = response.articles;
-    news.forEach(article => {
-      console.log();
-      console.log(article.title);
-      console.log(article.description);
-      console.log('---');
-    });
+    showNews(news);
   } catch (error) {
     console.error(error);
   }
@@ -66,12 +62,7 @@ const getNewsByCategory = async (category, limit = 10, language = '') => {
       language: language,
     });
     const news = response.articles;
-    news.forEach(article => {
-      console.log();
-      console.log(article.title);
-      console.log(article.description);
-      console.log('---');
-    });
+    showNews(news);
   } catch (error) {
     console.error(error);
   }
